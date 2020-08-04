@@ -1,0 +1,8 @@
+{
+    "name": "Release on milestone closed",
+    "description": "Creates a release and merge-up pull requests when a milestone is closed",
+    "iconName": "doctrine-logo",
+    "categories": [
+        "PHP"
+    ]
+}
