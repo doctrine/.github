@@ -1,0 +1,11 @@
+{
+    "name": "Coding standards",
+    "description": "Enforces Doctrine Coding Standard",
+    "iconName": "doctrine-logo",
+    "categories": [
+        "PHP"
+    ],
+    "filePatterns": [
+        "^phpcs\\.xml(?:\\.dist)$"
+    ]
+}
