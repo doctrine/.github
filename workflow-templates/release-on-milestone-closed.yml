@@ -7,7 +7,7 @@ on:
 
 jobs:
   release:
-    name: "GIT tag, release & create merge-up PR"
+    name: "Git tag, release & create merge-up PR"
     runs-on: "ubuntu-20.04"
 
     steps:
