@@ -1,0 +1,12 @@
+{
+    "name": "Static analysis",
+    "description": "Perform static analysis on the source code and tests",
+    "iconName": "doctrine-logo",
+    "categories": [
+        "PHP"
+    ],
+    "filePatterns": [
+        "^phpstan\\.neon(?:\\.dist)$",
+        "^psalm\\.xml$"
+    ]
+}
