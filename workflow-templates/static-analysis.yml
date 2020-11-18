@@ -60,3 +60,6 @@ jobs:
 
       - name: Psalm
         uses: docker://vimeo/psalm-github-actions
+        # Uncomment this part in order to install dev dependencies before executing psalm
+        # with:
+        #  composer_require_dev: true
