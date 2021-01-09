@@ -1,0 +1,11 @@
+{
+    "name": "Continuous Integration",
+    "description": "Runs automated tests on multiple PHP versions",
+    "iconName": "doctrine-logo",
+    "categories": [
+        "PHP"
+    ],
+    "filePatterns": [
+        "^phpunit\\.xml(?:\\.dist)$"
+    ]
+}
