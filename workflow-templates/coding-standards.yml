@@ -32,6 +32,8 @@ jobs:
 
       - name: "Install dependencies with Composer"
         uses: "ramsey/composer-install@v1"
+        with:
+          dependency-versions: "highest"
 
       # https://github.com/doctrine/.github/issues/3
       - name: "Run PHP_CodeSniffer"
