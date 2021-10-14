@@ -8,6 +8,17 @@ on:
         default: false
         required: false
         type: "boolean"
+    secrets:
+      GITHUB_TOKEN:
+        required: true
+      SIGNING_SECRET_KEY:
+        required: true
+      GIT_AUTHOR_NAME:
+        required: true
+      GIT_AUTHOR_EMAIL:
+        required: true
+      ORGANIZATION_ADMIN_TOKEN:
+        required: true
 
 jobs:
   release:
