@@ -10,4 +10,7 @@ on:
 
 jobs:
   phpunit:
+    name: "PHPUnit"
     uses: "doctrine/.github/.github/workflows/continuous-integration.yml@use_a_valid_ref_here"
+    with:
+      php-versions: '["6.0", "6.1"]' # Use custom versions of PHP

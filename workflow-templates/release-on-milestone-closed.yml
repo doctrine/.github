@@ -7,6 +7,7 @@ on:
 
 jobs:
   release:
+    name: "Git tag, release & create merge-up PR"
     uses: "doctrine/.github/.github/workflows/release-on-milestone-closed.yml@use_a_valid_ref_here"
     secrets:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -14,3 +15,5 @@ jobs:
       GIT_AUTHOR_NAME: ${{ secrets.GIT_AUTHOR_NAME }}
       ORGANIZATION_ADMIN_TOKEN: ${{ secrets.ORGANIZATION_ADMIN_TOKEN }}
       SIGNING_SECRET_KEY: ${{ secrets.SIGNING_SECRET_KEY }}
+    with:
+      use-next-minor-as-default-branch: true # defaults to false
