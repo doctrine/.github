@@ -7,6 +7,7 @@ on:
 
 jobs:
   release:
+    name: "Git tag, release & create merge-up PR"
     uses: "doctrine/.github/.github/workflows/release-on-milestone-closed.yml@use_a_valid_ref_here"
     secrets:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
