@@ -13,3 +13,5 @@ jobs:
   coding-standards:
     name: "Coding Standards"
     uses: "doctrine/.github/.github/workflows/coding-standards.yml@use_a_valid_ref_here"
+    with:
+      php-version: "6.0" # use a custom version of PHP

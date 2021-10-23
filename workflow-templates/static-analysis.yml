@@ -13,3 +13,5 @@ jobs:
   static-analysis:
     name: "Static Analysis"
     uses: "doctrine/.github/.github/workflows/static-analysis.yml@use_a_valid_ref_here"
+    with:
+      php-version: "6.0" # use a custom version of PHP
