@@ -8,6 +8,10 @@ on:
         default: '["7.2", "7.3", "7.4", "8.0"]'
         required: false
         type: "string"
+      composer-root-version:
+        description: "The version the package being tested, in case of circular dependencies."
+        required: false
+        type: "string"
 
 env:
   fail-fast: true
@@ -47,6 +51,11 @@ jobs:
           php-version: "${{ matrix.php-version }}"
           coverage: "xdebug"
           ini-values: "zend.assertions=1"
+
+      - name: "Set COMPOSER_ROOT_VERSION"
+        run: |
+          echo "COMPOSER_ROOT_VERSION=${{ inputs.composer-root-version }}" >> $GITHUB_ENV
+        if: "${{ inputs.composer-root-version }}"
 
       - name: "Install dependencies with Composer"
         uses: "ramsey/composer-install@v1"

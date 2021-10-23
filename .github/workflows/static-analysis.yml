@@ -9,6 +9,10 @@ on:
         default: "8.0"
         required: false
         type: "string"
+      composer-root-version:
+        description: "The version the package being tested, in case of circular dependencies."
+        required: false
+        type: "string"
 
 jobs:
   phpstan:
@@ -29,6 +33,11 @@ jobs:
         with:
           coverage: "none"
           php-version: "${{ matrix.php-version }}"
+
+      - name: "Set COMPOSER_ROOT_VERSION"
+        run: |
+          echo "COMPOSER_ROOT_VERSION=${{ inputs.composer-root-version }}" >> $GITHUB_ENV
+        if: "${{ inputs.composer-root-version }}"
 
       - name: "Install dependencies with Composer"
         uses: "ramsey/composer-install@v1"
@@ -56,6 +65,11 @@ jobs:
         with:
           coverage: "none"
           php-version: "${{ matrix.php-version }}"
+
+      - name: "Set COMPOSER_ROOT_VERSION"
+        run: |
+          echo "COMPOSER_ROOT_VERSION=${{ inputs.composer-root-version }}" >> $GITHUB_ENV
+        if: "${{ inputs.composer-root-version }}"
 
       - name: "Install dependencies with Composer"
         uses: "ramsey/composer-install@v1"
