@@ -12,6 +12,11 @@ on:
         description: "The version the package being tested, in case of circular dependencies."
         required: false
         type: "string"
+      composer-options:
+        description: "Additional flags for the composer install command."
+        default: "--prefer-dist --no-suggest"
+        required: false
+        type: "string"
 
 env:
   fail-fast: true
@@ -61,7 +66,7 @@ jobs:
         uses: "ramsey/composer-install@v1"
         with:
           dependency-versions: "${{ matrix.dependencies }}"
-          composer-options: "--prefer-dist"
+          composer-options: "${{ inputs.composer-options }}"
 
       - name: "Run PHPUnit"
         run: "vendor/bin/phpunit --coverage-clover=coverage.xml"

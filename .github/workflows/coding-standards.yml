@@ -13,6 +13,11 @@ on:
         description: "The version the package being tested, in case of circular dependencies."
         required: false
         type: "string"
+      composer-options:
+        description: "Additional flags for the composer install command."
+        default: "--prefer-dist --no-suggest"
+        required: false
+        type: "string"
 
 jobs:
   coding-standards:
@@ -44,6 +49,7 @@ jobs:
         uses: "ramsey/composer-install@v1"
         with:
           dependency-versions: "highest"
+          composer-options: "${{ inputs.composer-options }}"
 
       # https://github.com/doctrine/.github/issues/3
       - name: "Run PHP_CodeSniffer"
