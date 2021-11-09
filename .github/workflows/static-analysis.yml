@@ -15,7 +15,7 @@ on:
         type: "string"
       composer-options:
         description: "Additional flags for the composer install command."
-        default: "--prefer-dist --no-suggest"
+        default: "--prefer-dist"
         required: false
         type: "string"
 
