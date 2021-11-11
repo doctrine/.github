@@ -10,7 +10,7 @@ on:
         required: false
         type: "string"
       composer-root-version:
-        description: "The version the package being tested, in case of circular dependencies."
+        description: "The version of the package being tested, in case of circular dependencies."
         required: false
         type: "string"
       composer-options:
