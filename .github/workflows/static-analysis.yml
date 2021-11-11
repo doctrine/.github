@@ -13,6 +13,11 @@ on:
         description: "The version the package being tested, in case of circular dependencies."
         required: false
         type: "string"
+      composer-options:
+        description: "Additional flags for the composer install command."
+        default: "--prefer-dist"
+        required: false
+        type: "string"
 
 jobs:
   phpstan:
@@ -43,6 +48,7 @@ jobs:
         uses: "ramsey/composer-install@v1"
         with:
           dependency-versions: "highest"
+          composer-options: "${{ inputs.composer-options }}"
 
       - name: "Run a static analysis with phpstan/phpstan"
         run: "vendor/bin/phpstan analyse"
@@ -75,6 +81,7 @@ jobs:
         uses: "ramsey/composer-install@v1"
         with:
           dependency-versions: "highest"
+          composer-options: "${{ inputs.composer-options }}"
 
       - name: "Run a static analysis with vimeo/psalm"
         run: "vendor/bin/psalm --show-info=false --stats --output-format=github --threads=$(nproc)"
