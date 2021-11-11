@@ -1,0 +1,80 @@
+name: "Continuous Integration with unstable Symfony"
+
+on:
+  workflow_call:
+    inputs:
+      php-version:
+        description: "The PHP version to use when running the job"
+        default: "8.0"
+        required: false
+        type: "string"
+      composer-root-version:
+        description: "The version of the package being tested, in case of circular dependencies."
+        required: false
+        type: "string"
+      composer-options:
+        description: "Additional flags for the composer install command."
+        default: "--prefer-dist"
+        required: false
+        type: "string"
+      symfony-version-constraint:
+        description: "The unstable version constraint to enforce "
+        required: true
+        type: "string"
+      extra-requirements:
+        description: "Will be used with composer require --no-update"
+        required: false
+        type: "string"
+
+env:
+  fail-fast: true
+
+jobs:
+  phpunit:
+    name: "PHPUnit"
+    runs-on: "ubuntu-20.04"
+
+    steps:
+      - name: "Checkout"
+        uses: "actions/checkout@v2"
+        with:
+          fetch-depth: 2
+
+      - name: "Install PHP"
+        uses: "shivammathur/setup-php@v2"
+        with:
+          php-version: "${{ inputs.php-version }}"
+          coverage: "pcov"
+          ini-values: "zend.assertions=1"
+          tools: "flex"
+
+      - name: "Set COMPOSER_ROOT_VERSION"
+        run: |
+          echo "COMPOSER_ROOT_VERSION=${{ inputs.composer-root-version }}" >> $GITHUB_ENV
+        if: "${{ inputs.composer-root-version }}"
+
+      - name: "Allow unstable dependencies"
+        run: |
+          composer config minimum-stability dev
+          composer config prefer-stable true
+
+      - name: "Require unstable dependencies"
+        run: "composer require --no-update ${{ inputs.extra-requirements }}"
+        if: "${{ inputs.extra-requirements }}"
+
+      - name: "Enforce Symfony version"
+        run: "composer config extra.symfony.require ${{ inputs.symfony-version-constraint }}"
+
+      - name: "Install dependencies with Composer"
+        uses: "ramsey/composer-install@v1"
+        with:
+          dependency-versions: "highest"
+          composer-options: "${{ inputs.composer-options }}"
+
+      - name: "Run PHPUnit"
+        run: "vendor/bin/phpunit --coverage-clover=phpunit-${{ inputs.php-version }}-unstable.coverage"
+
+      - name: "Upload to Codecov"
+        uses: "codecov/codecov-action@v1"
+        with:
+          files: "./phpunit-${{ inputs.php-version }}-unstable.coverage"
