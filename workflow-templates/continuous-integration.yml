@@ -14,3 +14,13 @@ jobs:
     uses: "doctrine/.github/.github/workflows/continuous-integration.yml@use_a_valid_ref_here"
     with:
       php-versions: '["6.0", "6.1"]' # Use custom versions of PHP
+
+  phpunit-unstable-symfony:
+    name: "PHPUnit with unstable Symfony"
+    uses: "doctrine/.github/.github/workflows/continuous-integration-symfony-unstable.yml@use_a_valid_ref_here"
+    with:
+      php-versions: '["6.0"]' # Use custom version of PHP
+      symfony-version-constraint: "47.1.x"
+
+      # If the package requires some components but does not allow that version yet
+      extra-requirements: "symfony/framework-bundle 47.1.x symfony/console 47.1.x"
