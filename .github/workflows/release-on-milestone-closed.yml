@@ -9,8 +9,6 @@ on:
         required: false
         type: "boolean"
     secrets:
-      GITHUB_TOKEN:
-        required: true
       SIGNING_SECRET_KEY:
         required: true
       GIT_AUTHOR_NAME:
