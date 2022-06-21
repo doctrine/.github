@@ -1,0 +1,20 @@
+name: "Composer Lint"
+
+on:
+  pull_request:
+    branches:
+      - "*.x"
+    paths:
+      - "composer.json"
+  push:
+    branches:
+      - "*.x"
+    paths:
+      - "composer.json"
+
+jobs:
+  composer-lint:
+    name: "Composer Lint"
+    uses: "doctrine/.github/.github/workflows/composer-lint.yml@use_a_valid_ref_here"
+    with:
+      php-version: "6.0" # use a custom version of PHP
