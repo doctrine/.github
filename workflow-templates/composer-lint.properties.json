@@ -1,0 +1,11 @@
+{
+    "name": "Composer Lint",
+    "description": "Enforces consistency in the syntax of 'composer.json'",
+    "iconName": "doctrine-logo",
+    "categories": [
+        "PHP"
+    ],
+    "filePatterns": [
+        "^composer\\.json$"
+    ]
+}
