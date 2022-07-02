@@ -33,5 +33,5 @@ jobs:
         env:
           COMPOSER_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
 
-      - name: "Composer normmalize"
+      - name: "Composer normalize"
         run: "composer-normalize --dry-run"
