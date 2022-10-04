@@ -36,7 +36,7 @@ jobs:
 
     steps:
       - name: "Checkout"
-        uses: "actions/checkout@v2"
+        uses: "actions/checkout@v3"
         with:
           fetch-depth: 2
 
@@ -66,7 +66,7 @@ jobs:
         run: "composer config extra.symfony.require ${{ inputs.symfony-version-constraint }}"
 
       - name: "Install dependencies with Composer"
-        uses: "ramsey/composer-install@v1"
+        uses: "ramsey/composer-install@v2"
         with:
           dependency-versions: "highest"
           composer-options: "${{ inputs.composer-options }}"
@@ -75,6 +75,6 @@ jobs:
         run: "vendor/bin/phpunit --coverage-clover=phpunit-${{ inputs.php-version }}-unstable.coverage"
 
       - name: "Upload to Codecov"
-        uses: "codecov/codecov-action@v1"
+        uses: "codecov/codecov-action@v3"
         with:
           files: "./phpunit-${{ inputs.php-version }}-unstable.coverage"
