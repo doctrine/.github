@@ -4,9 +4,21 @@ on:
   pull_request:
     branches:
       - "*.x"
+    paths:
+      - ".github/workflows/continuous-integration.yml"
+      - "composer.*"
+      - "src/**" # but some packages use lib
+      - "phpunit.xml.dist"
+      - "tests/**"
   push:
     branches:
       - "*.x"
+    paths:
+      - ".github/workflows/continuous-integration.yml"
+      - "composer.*"
+      - "src/**" # but some packages use lib
+      - "phpunit.xml.dist"
+      - "tests/**"
 
 jobs:
   phpunit:
