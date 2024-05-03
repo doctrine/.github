@@ -78,3 +78,5 @@ jobs:
         uses: "codecov/codecov-action@v4"
         with:
           files: "./phpunit-${{ inputs.php-version }}-unstable.coverage"
+        env:
+          CODECOV_TOKEN: "${{ secrets.CODECOV_TOKEN }}"
