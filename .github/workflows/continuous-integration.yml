@@ -17,6 +17,9 @@ on:
         default: "--prefer-dist"
         required: false
         type: "string"
+    secrets:
+      CODECOV_TOKEN:
+        required: true
 
 env:
   fail-fast: true
