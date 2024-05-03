@@ -26,6 +26,8 @@ jobs:
     uses: "doctrine/.github/.github/workflows/continuous-integration.yml@use_a_valid_ref_here"
     with:
       php-versions: '["6.0", "6.1"]' # Use custom versions of PHP
+    secrets:
+      CODECOV_TOKEN: "${{ secrets.CODECOV_TOKEN }}"
 
   phpunit-unstable-symfony:
     name: "PHPUnit with unstable Symfony"
@@ -36,3 +38,5 @@ jobs:
 
       # If the package requires some components but does not allow that version yet
       extra-requirements: "symfony/framework-bundle 47.1.x symfony/console 47.1.x"
+    secrets:
+      CODECOV_TOKEN: "${{ secrets.CODECOV_TOKEN }}"
