@@ -54,3 +54,9 @@ jobs:
       # https://github.com/doctrine/.github/issues/3
       - name: "Run PHP_CodeSniffer"
         run: "vendor/bin/phpcs -q --no-colors --report=checkstyle | cs2pr"
+
+      - name: "Output PHP_CodeSniffer autofix diff"
+        if: success() || failure()
+        run: |
+          vendor/bin/phpcbf -q --no-colors --report=checkstyle || true
+          git add . -N && git diff
