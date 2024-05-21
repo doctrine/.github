@@ -51,7 +51,7 @@ jobs:
           composer-options: "${{ inputs.composer-options }}"
 
       - name: "Run a static analysis with phpstan/phpstan"
-        run: "vendor/bin/phpstan analyse"
+        run: "vendor/bin/phpstan analyse -v"
 
   psalm:
     name: "Psalm"
