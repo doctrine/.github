@@ -1,0 +1,11 @@
+{
+    "name": "Documentation",
+    "description": "Validates the documentation",
+    "iconName": "doctrine-logo",
+    "categories": [
+        "RST"
+    ],
+    "filePatterns": [
+        "^guides\\.xml$"
+    ]
+}
