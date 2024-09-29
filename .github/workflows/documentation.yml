@@ -1,0 +1,46 @@
+
+name: "Documentation"
+
+on:
+  workflow_call:
+
+jobs:
+  guides:
+    name: "phpDocumentor Guides"
+    runs-on: "ubuntu-22.04"
+
+    strategy:
+      matrix:
+        php-version:
+          - "8.3" # Use the same version as in doctrine/doctrine-website
+
+    steps:
+      - name: "Checkout"
+        uses: "actions/checkout@v4"
+
+      - name: "Install PHP"
+        uses: "shivammathur/setup-php@v2"
+        with:
+          coverage: "none"
+          php-version: "${{ matrix.php-version }}"
+          tools: "cs2pr"
+
+      # Some of our dependencies have supported branches where they still need
+      # to support PHP < 8.1. For that reason, let us not even attempt to install
+      # the usual dependencies and start from scratch.
+      - name: "Remove existing composer file"
+        run: "rm composer.json"
+
+      - name: "Require phpdocumentor/guides-cli"
+        # We use the same version constraint as in doctrine/doctrine-website
+        run: "composer require --dev phpdocumentor/guides-cli '^1.4' --no-update"
+
+      - name: "Install dependencies with Composer"
+        uses: "ramsey/composer-install@v3"
+        with:
+          dependency-versions: "highest"
+          composer-options: "${{ inputs.composer-options }}"
+
+      - name: "Run guides"
+        run: |
+          vendor/bin/guides -vvv --no-progress --fail-on-log docs/en
