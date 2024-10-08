@@ -12,13 +12,8 @@ on:
 
 jobs:
   composer-lint:
-    name: "Composer Lint"
+    name: "Composer Lint (PHP: ${{ inputs.php-version }})"
     runs-on: "ubuntu-22.04"
-
-    strategy:
-      matrix:
-        php-version:
-          - "${{ inputs.php-version }}"
 
     steps:
       - name: "Checkout"
@@ -28,7 +23,7 @@ jobs:
         uses: "shivammathur/setup-php@v2"
         with:
           coverage: "none"
-          php-version: "${{ matrix.php-version }}"
+          php-version: "${{ inputs.php-version }}"
           tools: composer:v2, composer-normalize:2
         env:
           COMPOSER_TOKEN: "${{ secrets.GITHUB_TOKEN }}"

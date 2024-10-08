@@ -9,11 +9,6 @@ jobs:
     name: "phpDocumentor Guides"
     runs-on: "ubuntu-22.04"
 
-    strategy:
-      matrix:
-        php-version:
-          - "8.3" # Use the same version as in doctrine/doctrine-website
-
     steps:
       - name: "Checkout"
         uses: "actions/checkout@v4"
@@ -22,7 +17,7 @@ jobs:
         uses: "shivammathur/setup-php@v2"
         with:
           coverage: "none"
-          php-version: "${{ matrix.php-version }}"
+          php-version: "8.3" # Use the same version as in doctrine/doctrine-website
           tools: "cs2pr"
 
       # Some of our dependencies have supported branches where they still need
