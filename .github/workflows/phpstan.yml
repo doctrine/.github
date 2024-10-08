@@ -1,5 +1,5 @@
 
-name: "Static Analysis"
+name: "Static Analysis with PHPStan"
 
 on:
   workflow_call:
@@ -21,15 +21,7 @@ on:
 
 jobs:
   phpstan:
-    name: "PHPStan (deprecated in favor of phpstan.yml)"
-    uses: "./.github/workflows/phpstan.yml"
-    with:
-      php-version: "${{ inputs.php-version }}"
-      composer-root-version: "${{ inputs.composer-root-version }}"
-      composer-options: "${{ inputs.composer-options }}"
-
-  psalm:
-    name: "Psalm (PHP: ${{ inputs.php-version }}, deprecated without a replacement)"
+    name: "PHPStan (PHP: ${{ inputs.php-version }})"
     runs-on: "ubuntu-22.04"
 
     steps:
@@ -53,5 +45,5 @@ jobs:
           dependency-versions: "highest"
           composer-options: "${{ inputs.composer-options }}"
 
-      - name: "Run a static analysis with vimeo/psalm"
-        run: "vendor/bin/psalm --show-info=false --stats --output-format=github --threads=$(nproc)"
+      - name: "Run a static analysis with phpstan/phpstan"
+        run: "vendor/bin/phpstan analyse -v"

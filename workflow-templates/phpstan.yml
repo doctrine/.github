@@ -6,21 +6,19 @@ on:
     branches:
       - "*.x"
     paths:
-      - ".github/workflows/static-analysis.yml"
+      - ".github/workflows/phpstan.yml"
       - "composer.*"
       - "src/**"
       - "phpstan*"
-      - "psalm*"
       - "tests/**"
   push:
     branches:
       - "*.x"
     paths:
-      - ".github/workflows/static-analysis.yml"
+      - ".github/workflows/phpstan.yml"
       - "composer.*"
       - "src/**"
       - "phpstan*"
-      - "psalm*"
       - "tests/**"
 
 jobs:
