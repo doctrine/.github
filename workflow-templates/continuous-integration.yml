@@ -7,7 +7,7 @@ on:
     paths:
       - ".github/workflows/continuous-integration.yml"
       - "composer.*"
-      - "src/**" # but some packages use lib
+      - "src/**"
       - "phpunit.xml.dist"
       - "tests/**"
   push:
@@ -16,7 +16,7 @@ on:
     paths:
       - ".github/workflows/continuous-integration.yml"
       - "composer.*"
-      - "src/**" # but some packages use lib
+      - "src/**"
       - "phpunit.xml.dist"
       - "tests/**"
 
