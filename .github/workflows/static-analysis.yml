@@ -21,13 +21,8 @@ on:
 
 jobs:
   phpstan:
-    name: "PHPStan"
+    name: "PHPStan (PHP: ${{ inputs.php-version }})"
     runs-on: "ubuntu-22.04"
-
-    strategy:
-      matrix:
-        php-version:
-          - "${{ inputs.php-version }}"
 
     steps:
       - name: "Checkout code"
@@ -37,7 +32,7 @@ jobs:
         uses: "shivammathur/setup-php@v2"
         with:
           coverage: "none"
-          php-version: "${{ matrix.php-version }}"
+          php-version: "${{ inputs.php-version }}"
 
       - name: "Set COMPOSER_ROOT_VERSION"
         run: |
@@ -54,13 +49,8 @@ jobs:
         run: "vendor/bin/phpstan analyse -v"
 
   psalm:
-    name: "Psalm"
+    name: "Psalm (PHP: ${{ inputs.php-version }})"
     runs-on: "ubuntu-22.04"
-
-    strategy:
-      matrix:
-        php-version:
-          - "${{ inputs.php-version }}"
 
     steps:
       - name: "Checkout code"
@@ -70,7 +60,7 @@ jobs:
         uses: "shivammathur/setup-php@v2"
         with:
           coverage: "none"
-          php-version: "${{ matrix.php-version }}"
+          php-version: "${{ inputs.php-version }}"
 
       - name: "Set COMPOSER_ROOT_VERSION"
         run: |

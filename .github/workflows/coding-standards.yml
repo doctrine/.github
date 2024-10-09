@@ -21,13 +21,8 @@ on:
 
 jobs:
   coding-standards:
-    name: "Coding Standards"
+    name: "Coding Standards (PHP: ${{ inputs.php-version }})"
     runs-on: "ubuntu-22.04"
-
-    strategy:
-      matrix:
-        php-version:
-          - "${{ inputs.php-version }}"
 
     steps:
       - name: "Checkout"
@@ -37,7 +32,7 @@ jobs:
         uses: "shivammathur/setup-php@v2"
         with:
           coverage: "none"
-          php-version: "${{ matrix.php-version }}"
+          php-version: "${{ inputs.php-version }}"
           tools: "cs2pr"
 
       - name: "Set COMPOSER_ROOT_VERSION"
