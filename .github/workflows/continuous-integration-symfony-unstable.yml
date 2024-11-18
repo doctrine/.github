@@ -78,7 +78,7 @@ jobs:
         run: "vendor/bin/phpunit --coverage-clover=phpunit-${{ inputs.php-version }}-unstable.coverage"
 
       - name: "Upload to Codecov"
-        uses: "codecov/codecov-action@v4"
+        uses: "codecov/codecov-action@v5"
         with:
           files: "./phpunit-${{ inputs.php-version }}-unstable.coverage"
         env:
