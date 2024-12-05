@@ -2,12 +2,6 @@ name: "Website config validation"
 
 on:
   workflow_call:
-    inputs:
-      json-file:
-        description: "The path to the .doctrine-project.json file"
-        default: ".doctrine-project.json"
-        required: false
-        type: "string"
 
 jobs:
   schema:
@@ -17,5 +11,8 @@ jobs:
       - name: "Checkout code"
         uses: "actions/checkout@v4"
 
+      - name: "Fetch JSON schema"
+        run: "wget https://www.doctrine-project.org/schema/website-schema.json -O website-schema.json"
+
       - name: "Validate JSON schema"
-        run: "jsonschema website-schema.json -i ${{ inputs.json-file }}"
+        run: "jsonschema website-schema.json -i .doctrine-project.json"
