@@ -13,6 +13,11 @@ on:
         description: "The version of the package being tested, in case of circular dependencies."
         required: false
         type: "string"
+      composer-dependency-versions:
+        description: "whether the job should install the locked, highest, or lowest versions of Composer dependencies."
+        default: "highest"
+        required: false
+        type: "string"
       composer-options:
         description: "Additional flags for the composer install command."
         default: "--prefer-dist"
@@ -42,7 +47,7 @@ jobs:
       - name: "Install dependencies with Composer"
         uses: "ramsey/composer-install@v3"
         with:
-          dependency-versions: "highest"
+          dependency-versions: "${{ inputs.composer-dependency-versions }}"
           composer-options: "${{ inputs.composer-options }}"
 
       - name: "Run a static analysis with phpstan/phpstan"
