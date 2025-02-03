@@ -27,8 +27,12 @@ jobs:
         run: "rm composer.json"
 
       - name: "Require phpdocumentor/guides-cli"
-        # We use the same version constraint as in doctrine/doctrine-website
-        run: "composer require --dev phpdocumentor/guides-cli '^1.4' --no-update"
+        # We use the same versions as in doctrine/doctrine-website
+        run: >
+          composer require --dev
+          phpdocumentor/guides-cli:1.7.0
+          phpdocumentor/filesystem:1.7.0
+          --no-update
 
       - name: "Install dependencies with Composer"
         uses: "ramsey/composer-install@v3"
