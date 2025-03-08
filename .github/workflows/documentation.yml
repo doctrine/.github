@@ -30,8 +30,8 @@ jobs:
         # We use the same versions as in doctrine/doctrine-website
         run: >
           composer require --dev
-          phpdocumentor/guides-cli:1.7.0
-          phpdocumentor/filesystem:1.7.0
+          phpdocumentor/guides-cli:1.7.1
+          phpdocumentor/filesystem:1.7.1
           --no-update
 
       - name: "Install dependencies with Composer"
