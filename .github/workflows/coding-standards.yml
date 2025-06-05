@@ -54,5 +54,5 @@ jobs:
       # https://github.com/doctrine/.github/issues/3
       - name: "Run PHP_CodeSniffer"
         run: |
-          vendor/bin/phpcs -q --report=diff || true
+          vendor/bin/phpcs -q --report-emacs --report-diff || true
           vendor/bin/phpcs -q --no-colors --report=checkstyle | cs2pr
