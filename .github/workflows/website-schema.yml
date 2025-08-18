@@ -9,7 +9,7 @@ jobs:
 
     steps:
       - name: "Checkout code"
-        uses: "actions/checkout@v4"
+        uses: "actions/checkout@v5"
 
       - name: "Fetch JSON schema"
         run: "wget https://www.doctrine-project.org/schema/website-schema.json --output-document website-schema.json"
