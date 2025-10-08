@@ -6,7 +6,7 @@ on:
 
 jobs:
   guides:
-    name: "phpDocumentor Guides"
+    name: "Generate docs"
     runs-on: "ubuntu-22.04"
 
     steps:
@@ -20,19 +20,10 @@ jobs:
           php-version: "8.3" # Use the same version as in doctrine/doctrine-website
           tools: "cs2pr"
 
-      # Some of our dependencies have supported branches where they still need
-      # to support PHP < 8.1. For that reason, let us not even attempt to install
-      # the usual dependencies and start from scratch.
-      - name: "Remove existing composer file"
-        run: "rm composer.json"
-
-      - name: "Require phpdocumentor/guides-cli"
-        # We use the same versions as in doctrine/doctrine-website
-        run: >
-          composer require --dev
-          phpdocumentor/guides-cli:1.7.1
-          phpdocumentor/filesystem:1.7.1
-          --no-update
+      - name: "Require docs-builder"
+        run: |
+          composer require --dev doctrine/docs-builder:1.0.3 -d docs &&
+          composer update -d docs
 
       - name: "Install dependencies with Composer"
         uses: "ramsey/composer-install@v3"
@@ -40,6 +31,6 @@ jobs:
           dependency-versions: "highest"
           composer-options: "${{ inputs.composer-options }}"
 
-      - name: "Run guides"
+      - name: "Run docs builder"
         run: |
-          vendor/bin/guides -vvv --no-progress --fail-on-log docs/en
+          ./docs/vendor/bin/build-docs.sh

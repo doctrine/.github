@@ -6,6 +6,6 @@
         "RST"
     ],
     "filePatterns": [
-        "^guides\\.xml$"
+        "^docs/en/index.rst$"
     ]
 }
