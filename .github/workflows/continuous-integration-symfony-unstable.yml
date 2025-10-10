@@ -48,7 +48,7 @@ jobs:
         with:
           php-version: "${{ inputs.php-version }}"
           coverage: "pcov"
-          ini-values: "zend.assertions=1"
+          ini-file: development
           tools: "flex"
 
       - name: "Set COMPOSER_ROOT_VERSION"

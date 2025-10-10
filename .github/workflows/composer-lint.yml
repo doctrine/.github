@@ -23,6 +23,7 @@ jobs:
         uses: "shivammathur/setup-php@v2"
         with:
           coverage: "none"
+          ini-file: development
           php-version: "${{ inputs.php-version }}"
           tools: composer:v2, composer-normalize:2
         env:

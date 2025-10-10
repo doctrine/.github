@@ -50,7 +50,7 @@ jobs:
         with:
           php-version: "${{ matrix.php-version }}"
           coverage: "pcov"
-          ini-values: "zend.assertions=1"
+          ini-file: development
 
       - name: "Install PHP with XDebug"
         uses: "shivammathur/setup-php@v2"
@@ -58,7 +58,7 @@ jobs:
         with:
           php-version: "${{ matrix.php-version }}"
           coverage: "xdebug"
-          ini-values: "zend.assertions=1"
+          ini-file: development
 
       - name: "Set COMPOSER_ROOT_VERSION"
         run: |
