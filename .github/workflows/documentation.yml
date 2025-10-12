@@ -31,6 +31,7 @@ jobs:
         with:
           dependency-versions: "highest"
           composer-options: "${{ inputs.composer-options }}"
+          working-directory: "docs"
 
       - name: "Run docs builder"
         run: |
