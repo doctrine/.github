@@ -21,16 +21,12 @@ jobs:
           php-version: "8.3" # Use the same version as in doctrine/doctrine-website
           tools: "cs2pr"
 
-      - name: "Require docs-builder"
-        run: |
-          composer require --dev doctrine/docs-builder:1.0.3 -d docs &&
-          composer update -d docs
-
       - name: "Install dependencies with Composer"
         uses: "ramsey/composer-install@v3"
         with:
           dependency-versions: "highest"
           composer-options: "${{ inputs.composer-options }}"
+          working-directory: "docs"
 
       - name: "Run docs builder"
         run: |
