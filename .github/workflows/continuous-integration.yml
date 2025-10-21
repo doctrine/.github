@@ -17,6 +17,11 @@ on:
         default: "--prefer-dist"
         required: false
         type: "string"
+      phpunit-options-lowest:
+        description: "Additional flags for the phpunit command when running with lowest dependencies."
+        default: ""
+        required: false
+        type: "string"
     secrets:
       CODECOV_TOKEN:
         required: true
@@ -78,7 +83,9 @@ jobs:
           fi
 
       - name: "Run PHPUnit"
-        run: "vendor/bin/phpunit --coverage-clover=coverage.xml"
+        run: >
+          vendor/bin/phpunit --coverage-clover=coverage.xml \
+          ${{ matrix.dependencies == 'lowest' && inputs.phpunit-options-lowest || '' }}
 
       - name: "Upload coverage file"
         uses: "actions/upload-artifact@v4"
