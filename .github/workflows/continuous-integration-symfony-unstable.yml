@@ -25,6 +25,11 @@ on:
         description: "Will be used with composer require --no-update"
         required: false
         type: "string"
+      phpunit-options-lowest:
+        description: "Additional flags for the phpunit command when running with lowest dependencies."
+        default: ""
+        required: false
+        type: "string"
     secrets:
       CODECOV_TOKEN:
         required: true
@@ -80,8 +85,11 @@ jobs:
             vendor/bin/phpunit --check-php-configuration;
           fi
 
+
       - name: "Run PHPUnit"
-        run: "vendor/bin/phpunit --coverage-clover=phpunit-${{ inputs.php-version }}-unstable.coverage"
+        run: >
+          vendor/bin/phpunit --coverage-clover=phpunit-${{ inputs.php-version }}-unstable.coverage \
+          ${{ matrix.dependencies == 'lowest' && inputs.phpunit-options-lowest || '' }}
 
       - name: "Upload to Codecov"
         uses: "codecov/codecov-action@v5"
