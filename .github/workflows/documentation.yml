@@ -18,7 +18,7 @@ jobs:
         with:
           coverage: "none"
           ini-file: development
-          php-version: "8.3" # Use the same version as in doctrine/doctrine-website
+          php-version: "8.4" # Use the same version as in doctrine/doctrine-website
           tools: "cs2pr"
 
       - name: "Install dependencies with Composer"
