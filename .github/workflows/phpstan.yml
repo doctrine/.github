@@ -46,7 +46,7 @@ jobs:
         if: "${{ inputs.composer-root-version }}"
 
       - name: "Install dependencies with Composer"
-        uses: "ramsey/composer-install@v3"
+        uses: "ramsey/composer-install@v4"
         with:
           dependency-versions: "${{ inputs.composer-dependency-versions }}"
           composer-options: "${{ inputs.composer-options }}"
