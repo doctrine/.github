@@ -74,7 +74,7 @@ jobs:
         run: "composer config extra.symfony.require ${{ inputs.symfony-version-constraint }}"
 
       - name: "Install dependencies with Composer"
-        uses: "ramsey/composer-install@v3"
+        uses: "ramsey/composer-install@v4"
         with:
           dependency-versions: "highest"
           composer-options: "${{ inputs.composer-options }}"
