@@ -92,7 +92,7 @@ jobs:
           ${{ matrix.dependencies == 'lowest' && inputs.phpunit-options-lowest || '' }}
 
       - name: "Upload to Codecov"
-        uses: "codecov/codecov-action@v5"
+        uses: "codecov/codecov-action@v6"
         with:
           files: "./phpunit-${{ inputs.php-version }}-unstable.coverage"
         env:
