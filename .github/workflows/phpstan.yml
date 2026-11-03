@@ -27,7 +27,7 @@ on:
 jobs:
   phpstan:
     name: "PHPStan (PHP: ${{ inputs.php-version }})"
-    runs-on: "ubuntu-22.04"
+    runs-on: "ubuntu-latest"
 
     steps:
       - name: "Checkout code"
