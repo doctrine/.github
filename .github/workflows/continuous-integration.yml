@@ -51,18 +51,9 @@ jobs:
 
       - name: "Install PHP with PCOV"
         uses: "shivammathur/setup-php@v2"
-        if: "${{ matrix.php-version != '7.1' }}"
         with:
           php-version: "${{ matrix.php-version }}"
           coverage: "pcov"
-          ini-file: development
-
-      - name: "Install PHP with XDebug"
-        uses: "shivammathur/setup-php@v2"
-        if: "${{ matrix.php-version == '7.1' }}"
-        with:
-          php-version: "${{ matrix.php-version }}"
-          coverage: "xdebug"
           ini-file: development
 
       - name: "Set COMPOSER_ROOT_VERSION"
