@@ -26,18 +26,18 @@ final class TargetBranchCheck
     ) {
     }
 
-    public function run(): void
+    public function run(): bool
     {
         $eventPullRequest = $this->event->pullRequest();
 
         if ($eventPullRequest === null) {
-            return;
+            return true;
         }
 
         $pullRequest = $this->github->pullRequest($eventPullRequest->number);
 
         if ($pullRequest === null || ! $pullRequest->isOpen() || $pullRequest->isMergeUp()) {
-            return;
+            return true;
         }
 
         $match = $this->labels->match($pullRequest->labels);
@@ -46,7 +46,7 @@ final class TargetBranchCheck
         if ($match === null) {
             $this->handleMissingTypeLabel($comments);
 
-            return;
+            return true;
         }
 
         $latestVersion = $this->github->latestReleaseVersion();
@@ -54,7 +54,7 @@ final class TargetBranchCheck
         if ($latestVersion === null) {
             $comments->clear();
 
-            return;
+            return true;
         }
 
         $policy = BranchPolicy::from(
@@ -75,10 +75,12 @@ final class TargetBranchCheck
         if ($match->tier->accepts($targetLine, $policy)) {
             $comments->clear();
 
-            return;
+            return true;
         }
 
         $comments->write($this->renderer->conflict($match, $targetLine, $policy));
+
+        return false;
     }
 
     private function handleMissingTypeLabel(CommentManager $comments): void

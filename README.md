@@ -44,6 +44,7 @@ the environment variables available inside a GitHub Actions run.
 | `--major-labels` | `MAJOR_LABELS` |
 | `--require-type-label` | `REQUIRE_TYPE_LABEL=true` |
 | `--comment-author` | `COMMENT_AUTHOR` or `github-actions[bot]` |
+| `--fail-on-mismatch` | `FAIL_ON_MISMATCH=true` |
 
 ## Labels
 

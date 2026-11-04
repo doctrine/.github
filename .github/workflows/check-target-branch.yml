@@ -23,6 +23,11 @@ on:
         required: false
         type: "boolean"
         default: false
+      fail-on-mismatch:
+        description: "Fail the job when the labels do not match the target branch"
+        required: false
+        type: "boolean"
+        default: false
 
 permissions:
   contents: "read"
@@ -57,3 +62,4 @@ jobs:
           MINOR_LABELS: ${{ inputs.minor-labels }}
           MAJOR_LABELS: ${{ inputs.major-labels }}
           REQUIRE_TYPE_LABEL: ${{ inputs.require-type-label }}
+          FAIL_ON_MISMATCH: ${{ inputs.fail-on-mismatch }}

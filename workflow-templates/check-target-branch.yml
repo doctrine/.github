@@ -23,3 +23,5 @@ jobs:
       contents: "read"
       issues: "write"
       pull-requests: "write"
+    with:
+      fail-on-mismatch: false

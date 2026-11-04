@@ -79,6 +79,11 @@ final class CheckTargetBranchCommand extends Command
                 mode: InputOption::VALUE_REQUIRED,
                 description: 'Login that owns the managed comment',
                 default: getenv('COMMENT_AUTHOR') ?: 'github-actions[bot]',
+            )
+            ->addOption(
+                'fail-on-mismatch',
+                mode: InputOption::VALUE_NONE,
+                description: 'Exit non-zero when the labels do not match the target branch',
             );
     }
 
@@ -111,7 +116,13 @@ final class CheckTargetBranchCommand extends Command
             commentAuthor: (string) $input->getOption('comment-author'),
         );
 
-        $check->run();
+        $valid = $check->run();
+
+        if (! $valid && ((bool) $input->getOption('fail-on-mismatch') || getenv('FAIL_ON_MISMATCH') === 'true')) {
+            $output->writeln('Target branch check failed.');
+
+            return Command::FAILURE;
+        }
 
         $output->writeln('Target branch check completed.', OutputInterface::VERBOSITY_VERBOSE);
 
