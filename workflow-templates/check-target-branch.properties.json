@@ -1,0 +1,8 @@
+{
+    "name": "Check target branch",
+    "description": "Comments when a pull request's labels do not match its target branch",
+    "iconName": "doctrine-logo",
+    "categories": [
+        "PHP"
+    ]
+}
