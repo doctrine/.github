@@ -1,0 +1,65 @@
+name: "Check target branch"
+
+on:
+  workflow_call:
+    inputs:
+      patch-labels:
+        description: "Optional comma-separated override for labels that target a patch release line; defaults to config/labels.json"
+        required: false
+        type: "string"
+        default: ""
+      minor-labels:
+        description: "Optional comma-separated override for labels that target the next minor branch; defaults to config/labels.json"
+        required: false
+        type: "string"
+        default: ""
+      major-labels:
+        description: "Optional comma-separated override for labels that target the next major branch; defaults to config/labels.json"
+        required: false
+        type: "string"
+        default: ""
+      require-type-label:
+        description: "Comment on pull requests that carry none of the type labels above"
+        required: false
+        type: "boolean"
+        default: false
+      fail-on-mismatch:
+        description: "Fail the job when the labels do not match the target branch"
+        required: false
+        type: "boolean"
+        default: false
+
+permissions:
+  contents: "read"
+  issues: "write"
+  pull-requests: "write"
+
+jobs:
+  check:
+    name: "Labels match target branch"
+    runs-on: "ubuntu-latest"
+
+    steps:
+      # job.workflow_* is populated for jobs defined in reusable workflows.
+      # Clone the repository at the commit that defines this job, so a pinned
+      # workflow version always runs matching code and configuration.
+      - name: "Fetch the branch check"
+        run: |
+          git clone --quiet "https://github.com/${{ job.workflow_repository }}.git" "${RUNNER_TEMP}/doctrine-github"
+          git -C "${RUNNER_TEMP}/doctrine-github" checkout --quiet "${{ job.workflow_sha }}"
+
+      - name: "Install the branch check dependencies"
+        run: composer install --working-dir="${RUNNER_TEMP}/doctrine-github" --no-interaction --no-progress --prefer-dist --no-dev
+
+      - name: "Check labels against the target branch"
+        run: php "${RUNNER_TEMP}/doctrine-github/bin/check-target-branch"
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          GITHUB_EVENT_PATH: ${{ github.event_path }}
+          GITHUB_API_URL: ${{ github.api_url }}
+          PATCH_LABELS: ${{ inputs.patch-labels }}
+          MINOR_LABELS: ${{ inputs.minor-labels }}
+          MAJOR_LABELS: ${{ inputs.major-labels }}
+          REQUIRE_TYPE_LABEL: ${{ inputs.require-type-label }}
+          FAIL_ON_MISMATCH: ${{ inputs.fail-on-mismatch }}
