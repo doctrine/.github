@@ -23,13 +23,7 @@ enum TargetTier: string
 
     public function accepts(ReleaseLine $target, BranchPolicy $policy): bool
     {
-        if ($this === self::Patch) {
-            return $target->compare($policy->latestLine) <= 0;
-        }
-
-        $expected = $this->expectedLine($policy);
-
-        return $expected !== null && $expected->equals($target);
+        return $policy->accepts($this, $target);
     }
 
     public function branchDescription(): string

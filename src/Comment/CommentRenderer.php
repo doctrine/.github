@@ -47,11 +47,23 @@ final class CommentRenderer
         $expected = $tier->expectedLine($policy);
 
         if ($expected === null) {
-            return sprintf(
-                'Changes labelled **%s** should target the %s, but no such branch exists yet.',
-                $label,
-                $tier->branchDescription(),
-            );
+            $lines = [
+                sprintf(
+                    'Changes labelled **%s** should target the %s, but no such branch exists yet.',
+                    $label,
+                    $tier->branchDescription(),
+                ),
+            ];
+            $legacyMinor = $policy->legacyMinorLine();
+
+            if ($tier === TargetTier::Minor && $legacyMinor !== null) {
+                $lines[] = sprintf(
+                    'Forward-compatibility improvements may target the legacy minor branch, `%s`.',
+                    $legacyMinor->name(),
+                );
+            }
+
+            return implode("\n", $lines);
         }
 
         if ($tier === TargetTier::Patch) {
@@ -61,12 +73,24 @@ final class CommentRenderer
             ]);
         }
 
-        return sprintf(
-            'Changes labelled **%s** should target the %s, `%s`.',
-            $label,
-            $tier->branchDescription(),
-            $expected->name(),
-        );
+        $lines = [
+            sprintf(
+                'Changes labelled **%s** should target the %s, `%s`.',
+                $label,
+                $tier->branchDescription(),
+                $expected->name(),
+            ),
+        ];
+        $legacyMinor = $policy->legacyMinorLine();
+
+        if ($tier === TargetTier::Minor && $legacyMinor !== null && ! $legacyMinor->equals($expected)) {
+            $lines[] = sprintf(
+                'Forward-compatibility improvements may target the legacy minor branch, `%s`.',
+                $legacyMinor->name(),
+            );
+        }
+
+        return implode("\n", $lines);
     }
 
     /** @return list<string> */

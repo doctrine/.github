@@ -18,6 +18,11 @@ preinstalled on GitHub-hosted runners. Workflows clone this repository at the
 commit that defines the job, so a pinned workflow version always runs matching
 code and configuration.
 
+When the target repository contains a `.doctrine-project.json`, its `versions`
+flags identify the maintained, upcoming, and legacy-minor branches. The
+release-derived branch still provides the current patch line, since the metadata
+can lag behind the default branch.
+
 ### Target branch check
 
 ```bash

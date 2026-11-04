@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Doctrine\Github\TargetBranchCheck\GitHub;
 
 use Doctrine\Github\TargetBranchCheck\Event\PullRequest;
+use Doctrine\Github\TargetBranchCheck\Project\ProjectMetadata;
 use Doctrine\Github\TargetBranchCheck\Release\ReleaseLine;
 use Doctrine\Github\TargetBranchCheck\Release\ReleaseVersion;
 use RuntimeException;
@@ -79,6 +80,39 @@ final class GitHubClient implements GitHub
         return PullRequest::fromApiPayload($payload);
     }
 
+    public function defaultBranch(): string
+    {
+        $payload = $this->get($this->repository->path());
+        $branch = $payload['default_branch'] ?? null;
+
+        if (! is_string($branch) || $branch === '') {
+            throw new RuntimeException('The repository payload is missing "default_branch".');
+        }
+
+        return $branch;
+    }
+
+    public function projectMetadata(string $ref): ?ProjectMetadata
+    {
+        $path = sprintf(
+            '%s/contents/.doctrine-project.json?ref=%s',
+            $this->repository->path(),
+            rawurlencode($ref),
+        );
+        $headers = $this->headers();
+        $headers['Accept'] = 'application/vnd.github.raw+json';
+
+        $response = $this->http->request('GET', $this->apiUrl . $path, options: ['headers' => $headers]);
+
+        if ($response->getStatusCode() === 404) {
+            return null;
+        }
+
+        $this->assertSuccessful($response, 'GET', $path);
+
+        return ProjectMetadata::fromJson($response->getContent(throw: false));
+    }
+
     /** @return list<array<string, mixed>> */
     public function comments(int $issueNumber): array
     {
@@ -132,6 +166,20 @@ final class GitHubClient implements GitHub
         }
 
         return ReleaseVersion::highest($versions);
+    }
+
+    /** @return array<string, mixed> */
+    private function get(string $path): array
+    {
+        $response = $this->http->request('GET', $this->apiUrl . $path, options: ['headers' => $this->headers()]);
+        $this->assertSuccessful($response, 'GET', $path);
+        $payload = $response->toArray(throw: false);
+
+        if (! is_array($payload)) {
+            throw new RuntimeException('Expected an object from the GitHub API.');
+        }
+
+        return $payload;
     }
 
     /** @param array<string, mixed>|null $body */

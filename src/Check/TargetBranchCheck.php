@@ -60,6 +60,7 @@ final class TargetBranchCheck
         $policy = BranchPolicy::from(
             ReleaseLines::fromLines($this->github->releaseLines()),
             $latestVersion,
+            metadata: $this->github->projectMetadata($this->github->defaultBranch()),
         );
 
         $targetLine = ReleaseLine::fromBranchName($pullRequest->baseRef);
