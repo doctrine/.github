@@ -1,0 +1,27 @@
+{
+    "labels": [
+        "BC Break",
+        "Bug",
+        "CI",
+        "dependencies",
+        "Documentation",
+        "Enhancement",
+        "Feature",
+        "Needs Test",
+        "Release Blocker",
+        "Task",
+        "Typing"
+    ],
+    "targets": {
+        "patch": [
+            "Bug"
+        ],
+        "minor": [
+            "Feature",
+            "Enhancement"
+        ],
+        "major": [
+            "BC Break"
+        ]
+    }
+}

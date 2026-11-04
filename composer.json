@@ -1,0 +1,25 @@
+{
+    "name": "doctrine/github-automation",
+    "description": "Shared automation for Doctrine repositories",
+    "type": "project",
+    "license": "MIT",
+    "require": {
+        "php": "^8.1",
+        "symfony/console": "^6.4",
+        "symfony/http-client": "^6.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "Doctrine\\Github\\TargetBranchCheck\\": "src/"
+        }
+    },
+    "config": {
+        "platform": {
+            "php": "8.1.0"
+        },
+        "sort-packages": true
+    },
+    "scripts": {
+        "check-target-branch": "@php bin/check-target-branch"
+    }
+}

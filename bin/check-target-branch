@@ -1,0 +1,15 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types=1);
+
+use Doctrine\Github\TargetBranchCheck\Command\CheckTargetBranchCommand;
+use Symfony\Component\Console\Application;
+
+require dirname(__DIR__) . '/vendor/autoload.php';
+
+$application = new Application('doctrine-target-branch-check');
+$application->add(new CheckTargetBranchCommand());
+$application->setDefaultCommand('check-target-branch', true);
+
+exit($application->run());
