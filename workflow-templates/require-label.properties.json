@@ -1,0 +1,8 @@
+{
+    "name": "Require label",
+    "description": "Fails when no label is applied to a pull request",
+    "iconName": "doctrine-logo",
+    "categories": [
+        "PHP"
+    ]
+}
