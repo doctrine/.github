@@ -1,0 +1,25 @@
+name: "Require label"
+
+on:
+  workflow_call:
+
+permissions:
+  pull-requests: "read"
+
+jobs:
+  check:
+    name: "Pull request has a label"
+    runs-on: "ubuntu-latest"
+    # Every review fires pull_request_review; only approvals re-run the check.
+    if: "github.event_name != 'pull_request_review' || github.event.review.state == 'approved'"
+
+    steps:
+      - name: "Check the pull request has a label"
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          label_count="$(gh api "repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}" --jq '.labels | length')"
+          if [ "${label_count}" -eq 0 ]; then
+            echo "::error::No label is applied to this pull request. Add a label so it can be triaged."
+            exit 1
+          fi
