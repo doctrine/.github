@@ -1,0 +1,8 @@
+{
+    "name": "Label pull request",
+    "description": "Labels a pull request by answering the label policies against its context, then checks that the labels match the target branch",
+    "iconName": "doctrine-logo",
+    "categories": [
+        "PHP"
+    ]
+}
