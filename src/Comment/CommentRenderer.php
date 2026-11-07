@@ -22,7 +22,8 @@ final class CommentRenderer
             '',
             $this->expectedTarget($match->tier, $policy, $match->label),
             '',
-            'To retarget it, choose **Edit** next to the title and select the appropriate base branch.',
+            'To retarget it, choose **Edit** next to the title and select the appropriate base branch,',
+            'or use the downward arrow next to the base branch name if you are using the new pull request overview UI.',
             ...$this->regressionCaveat($match->tier, $target, $policy),
         ]);
     }
