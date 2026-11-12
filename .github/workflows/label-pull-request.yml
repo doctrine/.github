@@ -1,0 +1,98 @@
+name: "Label pull request"
+
+on:
+  workflow_call:
+    inputs:
+      number:
+        description: "Pull request number, for manual runs"
+        required: false
+        type: "string"
+      apply:
+        description: "Apply the suggested labels and comment"
+        required: false
+        type: "boolean"
+        default: true
+      model:
+        description: "Jev model; defaults to jev-1.13"
+        required: false
+        type: "string"
+      endpoint:
+        description: "Jev API endpoint; defaults to the Typesafe endpoint or the JEV_ENDPOINT variable"
+        required: false
+        type: "string"
+      patch-labels:
+        description: "Optional comma-separated override for labels that target a patch release line"
+        required: false
+        type: "string"
+      minor-labels:
+        description: "Optional comma-separated override for labels that target the next minor branch"
+        required: false
+        type: "string"
+      major-labels:
+        description: "Optional comma-separated override for labels that target the next major branch"
+        required: false
+        type: "string"
+      require-type-label:
+        description: "Comment on pull requests that carry none of the type labels"
+        required: false
+        type: "boolean"
+        default: false
+      fail-on-mismatch:
+        description: "Fail the job when the labels do not match the target branch"
+        required: false
+        type: "boolean"
+        default: false
+    secrets:
+      JEV_API_KEY:
+        description: "Token for the evaluation API"
+        required: true
+
+permissions:
+  contents: "read"
+  issues: "write"
+  pull-requests: "write"
+
+jobs:
+  # Suggests and applies labels when a pull request opens, then the target
+  # branch check runs below — after the labels exist. The two jobs run in
+  # separate concurrency lanes so an edited/labeled event cannot cancel a
+  # classification that is still running; its replacement would skip labeling.
+  label:
+    name: "Label pull request"
+    if: "github.event.action == 'opened' || inputs.number != ''"
+    runs-on: "ubuntu-latest"
+
+    concurrency:
+      group: "label-pull-request-${{ github.event.pull_request.number || inputs.number }}"
+      cancel-in-progress: true
+
+    steps:
+      # Runs with secrets against pull requests from forks, so it must never
+      # check out or execute the pull request head. The action only reads the
+      # event payload and runs its own pinned code.
+      - name: "Suggest and apply labels"
+        uses: "paulinevos/label-classifier@v1"
+        with:
+          number: "${{ inputs.number }}"
+          apply: "${{ inputs.apply }}"
+          model: "${{ inputs.model }}"
+          endpoint: "${{ inputs.endpoint || vars.JEV_ENDPOINT }}"
+        env:
+          JEV_API_KEY: "${{ secrets.JEV_API_KEY }}"
+
+  check:
+    name: "Labels match target branch"
+    needs: label
+    if: "always() && (github.event.action != 'opened' || inputs.number != '' || needs.label.result != 'skipped')"
+    uses: ./.github/workflows/check-target-branch.yml
+
+    concurrency:
+      group: "check-target-branch-${{ github.event.pull_request.number }}"
+      cancel-in-progress: true
+    with:
+      patch-labels: "${{ inputs.patch-labels }}"
+      minor-labels: "${{ inputs.minor-labels }}"
+      major-labels: "${{ inputs.major-labels }}"
+      require-type-label: ${{ inputs.require-type-label }}
+      fail-on-mismatch: ${{ inputs.fail-on-mismatch }}
+    secrets: inherit

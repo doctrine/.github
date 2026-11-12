@@ -1,0 +1,28 @@
+name: "Label pull request"
+
+on:
+  pull_request_target:
+    types:
+      - "opened"
+      - "reopened"
+      - "labeled"
+      - "unlabeled"
+      - "edited"
+
+concurrency:
+  group: "label-pull-request-${{ github.event.pull_request.number }}"
+  cancel-in-progress: true
+
+jobs:
+  label:
+    name: "Label pull request"
+    # This workflow runs with a write token against pull requests from forks, so it
+    # must never check out or execute the pull request head.
+    uses: "doctrine/.github/.github/workflows/label-pull-request.yml@use_a_valid_ref_here"
+    permissions:
+      contents: "read"
+      issues: "write"
+      pull-requests: "write"
+    secrets: "inherit"
+    with:
+      apply: true
